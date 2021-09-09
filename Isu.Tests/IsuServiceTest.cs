@@ -11,14 +11,18 @@ namespace Isu.Tests
         [SetUp]
         public void Setup()
         {
-            //TODO: implement
-            _isuService = null;
+            _isuService = new IsuService();
         }
 
         [Test]
         public void AddStudentToGroup_StudentHasGroupAndGroupContainsStudent()
         {
-            Assert.Fail();
+            _isuService.AddGroup("M3211");
+            Group group = _isuService.FindGroup("M3211");
+            Student student1 = _isuService.AddStudent(group, "Ilya");
+
+            Assert.AreEqual(student1.Group, group);
+            Assert.Contains(student1, _isuService.FindStudents(group.Name));
         }
 
         [Test]
@@ -26,7 +30,6 @@ namespace Isu.Tests
         {
             Assert.Catch<IsuException>(() =>
             {
-                
             });
         }
 
@@ -35,7 +38,6 @@ namespace Isu.Tests
         {
             Assert.Catch<IsuException>(() =>
             {
-
             });
         }
 
@@ -44,7 +46,6 @@ namespace Isu.Tests
         {
             Assert.Catch<IsuException>(() =>
             {
-
             });
         }
     }
