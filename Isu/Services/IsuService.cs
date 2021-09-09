@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Isu.Tools;
 
 namespace Isu.Services
@@ -7,63 +8,86 @@ namespace Isu.Services
     {
         private readonly List<Group> _groups;
         private readonly List<Student> _students;
+        private int _prevId;
 
-        public IsuService()
+        public IsuService(int defaultMaxStudentNumber)
         {
+            DefaultMaxStudentNumber = defaultMaxStudentNumber;
+            _prevId = 0;
             _groups = new List<Group>();
             _students = new List<Student>();
         }
 
+        public int DefaultMaxStudentNumber { get; }
+
         public Group AddGroup(string name)
         {
-            var newGroup = new Group(name);
-            _groups.Add(newGroup);
-            return newGroup;
+            if (Regex.IsMatch(name, "^M3[0-9]{3}$") == false) throw new IsuException("invalid group name");
+            var courseNumber = new CourseNumber(name.Substring(2, 1));
+            string groupNumber = name.Substring(3, 2);
+            var group = new Group(courseNumber, groupNumber, DefaultMaxStudentNumber);
+            _groups.Add(group);
+            return group;
         }
 
         public Student AddStudent(Group group, string name)
         {
-            var newStudent = new Student(name, group);
-            _students.Add(newStudent);
-            return newStudent;
+            Group curGroup = _groups.Find(g => g.Equals(group));
+            if (curGroup == null) throw new IsuException("group not exist");
+            var student = new Student(GenerateNextId(), name, curGroup);
+            _students.Add(student);
+            curGroup.AddStudent(student);
+            return student;
         }
 
         public Student GetStudent(int id)
         {
-            return _students.Find(student => student.Id == id);
+            return _students.Find(s => s.Id == id);
         }
 
         public Student FindStudent(string name)
         {
-            return _students.Find(student => student.Name == name);
+            return _students.Find(s => s.Name == name);
         }
 
         public List<Student> FindStudents(string groupName)
         {
-            return _students.FindAll(student => student.Group.Name == groupName);
+            Group group = _groups.Find(g => g.FullName == groupName);
+            if (group == null) throw new IsuException("group name not exist");
+            return group.Students;
         }
 
         public List<Student> FindStudents(CourseNumber courseNumber)
         {
-            return _students.FindAll(student => student.Group.CourseNumber == courseNumber);
+            return _students.FindAll(s => s.Group.CourseNumber == courseNumber);
         }
 
         public Group FindGroup(string groupName)
         {
-            return _groups.Find(group => group.Name == groupName);
+            return _groups.Find(g => g.FullName == groupName);
         }
 
         public List<Group> FindGroups(CourseNumber courseNumber)
         {
-            return _groups.FindAll(group => group.CourseNumber == courseNumber);
+           return _groups.FindAll(g => g.CourseNumber == courseNumber);
         }
 
         public void ChangeStudentGroup(Student student, Group newGroup)
         {
-            if (FindGroup(newGroup.Name) == null) throw new IsuException("group not found");
-            Student oldStudent = _students.Find(s => s.Id == student.Id);
-            if (oldStudent == null) throw new IsuException("student not found");
-            oldStudent.ChangeGroup(newGroup);
+            Student oldStudent = _students.Find(s => s == student);
+            if (oldStudent == null) throw new IsuException("student not exist");
+            if (!_groups.Exists(g => g == newGroup)) throw new IsuException("group not exist");
+            Group oldGroup = _groups.Find(g => g == student.Group);
+
+            oldGroup?.RemoveStudent(student);
+            newGroup.AddStudent(student);
+            student.ChangeGroup(newGroup);
+        }
+
+        private int GenerateNextId()
+        {
+            _prevId++;
+            return _prevId;
         }
     }
 }

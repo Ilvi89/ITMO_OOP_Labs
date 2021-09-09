@@ -1,21 +1,35 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
 using Isu.Tools;
 
 namespace Isu.Services
 {
     public class Group
     {
-        private const string Pattern = "M3[0-9]{3}";
-
-        public Group(string name)
+        public Group(CourseNumber courseNumber, string groupNumber, int maxStudentNumber)
         {
-            if (!Regex.IsMatch(name, Pattern)) throw new IsuException("invalid group name");
-            CourseNumber = new CourseNumber(name.Substring(2, 1));
-            GroupNumber = name.Substring(3, 2);
+            CourseNumber = courseNumber;
+            GroupNumber = groupNumber;
+            MaxStudentNumber = maxStudentNumber;
+            Students = new List<Student>();
         }
 
         public CourseNumber CourseNumber { get; }
-        public string Name => $"M3{CourseNumber}{GroupNumber}";
-        private string GroupNumber { get; }
+        public string GroupNumber { get; }
+        public List<Student> Students { get; }
+        public int MaxStudentNumber { get; }
+
+        public string FullName => $"M3{CourseNumber}{GroupNumber}";
+
+        public Student AddStudent(Student student)
+        {
+            if (Students.Count >= MaxStudentNumber) throw new IsuException("max students exceeded");
+            Students.Add(student);
+            return student;
+        }
+
+        public void RemoveStudent(Student student)
+        {
+            Students.Remove(student);
+        }
     }
 }
