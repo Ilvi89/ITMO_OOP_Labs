@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Shops.Exception;
 
 namespace Shops.Entity
@@ -37,6 +36,20 @@ namespace Shops.Entity
         public Product FindProduct(ProductName productName)
         {
             return Products.Find(p => p.Name == productName);
+        }
+
+        public void ChangeProductPrice(ProductName productName, int newPrice)
+        {
+            Product product = FindProduct(productName);
+            if (product == null) throw new ShopException("Product not fount");
+            product.ChangePrice(newPrice);
+        }
+
+        public void ChangeProductCount(ProductName productName, int newCount)
+        {
+            Product product = FindProduct(productName);
+            if (product == null) throw new ShopException("Product not fount");
+            product.ChangeCount(newCount);
         }
     }
 }
