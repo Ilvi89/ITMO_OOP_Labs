@@ -26,7 +26,6 @@ namespace Isu.Tests
         {
             Assert.Catch<IsuException>(() =>
             {
-                
             });
         }
 
@@ -35,7 +34,6 @@ namespace Isu.Tests
         {
             Assert.Catch<IsuException>(() =>
             {
-
             });
         }
 
@@ -44,7 +42,6 @@ namespace Isu.Tests
         {
             Assert.Catch<IsuException>(() =>
             {
-
             });
         }
     }
