@@ -56,19 +56,32 @@ namespace Shops.Tests.Service
         }
 
         [Test]
-        public void BuyProduct_BalanceChanged()
+        public void BuyProduct_CustomerBalanceAndProductCountChanged()
         {
             int oldBalance = 1000;
             int quantityToBuy = 5;
+            int oldProductCount = 5;
             var customer = new Customer(oldBalance);
 
             ProductName apple = _shopManager.RegisterProductName("apple");
             Shop shop = _shopManager.Create("BestShop", "Tyta st. 1");
-            shop.AddProduct(apple, 10, 10);
+            shop.AddProduct(apple, oldProductCount, 10);
             _shopManager.Buy(customer, shop, apple, quantityToBuy);
             Product product = shop.FindProduct(apple);
 
             Assert.AreEqual(customer.Balance, oldBalance - quantityToBuy * product.Price);
+            Assert.AreEqual(product.Count, oldProductCount - quantityToBuy);
+        }
+
+        public void BuyProduct_ThrowBalanceInsufficientException()
+        {
+            var customer = new Customer(0);
+            ProductName apple = _shopManager.RegisterProductName("apple");
+            Shop shop = _shopManager.Create("BestShop", "Tyta st. 1");
+
+            shop.AddProduct(apple, 10, 10);
+            Assert.Catch<BalanceInsufficientException>(()
+                => _shopManager.Buy(customer, shop, apple, 1));
         }
     }
 }
