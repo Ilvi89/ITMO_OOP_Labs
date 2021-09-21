@@ -28,7 +28,7 @@ namespace Shops.Tests.Entity
         [Test]
         public void AddExistingProductToShop_Throw()
         {
-            Assert.Catch<ProductAlreadyExist>(() =>
+            Assert.Catch<ProductAlreadyExistException>(() =>
             {
                 var apple = new ProductName("123", "apple");
                 _shop.AddProduct(apple, 0, 10);

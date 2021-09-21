@@ -29,7 +29,7 @@ namespace Shops.Entity
             if (count < 0) throw new ArgumentOutOfRangeException(nameof(count), count, "count cannot be negative");
             if (price < 0) throw new ArgumentOutOfRangeException(nameof(price), price, "price cannot be negative");
             if (Products.Exists(p => p.Name == productName))
-                throw new ProductAlreadyExist(productName.Name);
+                throw new ProductAlreadyExistException(productName.Name);
 
             Products.Add(new Product(productName, price, count));
         }
