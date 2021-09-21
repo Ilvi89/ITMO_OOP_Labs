@@ -14,7 +14,7 @@
         public override bool Equals(object obj)
         {
             if (obj is not ProductName productName) return false;
-            return productName.Id == Id && productName.Name == Name;
+            return productName.Id == Id && productName.Name.ToLower() == Name.ToLower();
         }
 
         public override int GetHashCode()

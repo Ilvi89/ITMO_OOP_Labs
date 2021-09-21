@@ -4,21 +4,21 @@ using System.Runtime.Serialization;
 namespace Shops.Exception
 {
     [Serializable]
-    public class ShopException : System.Exception
+    public class ShopsException : System.Exception
     {
-        public ShopException() { }
+        public ShopsException() { }
 
-        public ShopException(string message)
+        public ShopsException(string message)
             : base(message)
         {
         }
 
-        public ShopException(string message, System.Exception inner)
+        public ShopsException(string message, System.Exception inner)
             : base(message, inner)
         {
         }
 
-        protected ShopException(
+        protected ShopsException(
             SerializationInfo info,
             StreamingContext context)
             : base(info, context)

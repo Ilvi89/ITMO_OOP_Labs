@@ -26,9 +26,10 @@ namespace Shops.Entity
 
         public void AddProduct(ProductName productName, int count, int price)
         {
-            if (count <= 0) throw new ArgumentOutOfRangeException(nameof(count), count, "count cannot be negative");
+            if (count < 0) throw new ArgumentOutOfRangeException(nameof(count), count, "count cannot be negative");
+            if (price < 0) throw new ArgumentOutOfRangeException(nameof(price), price, "price cannot be negative");
             if (Products.Exists(p => p.Name == productName))
-                throw new ShopException("product already exist");
+                throw new ProductAlreadyExist(productName.Name);
 
             Products.Add(new Product(productName, price, count));
         }
@@ -41,14 +42,14 @@ namespace Shops.Entity
         public void ChangeProductPrice(ProductName productName, int newPrice)
         {
             Product product = FindProduct(productName);
-            if (product == null) throw new ShopException("Product not fount");
+            if (product == null) throw new ShopsException("Product not fount");
             product.ChangePrice(newPrice);
         }
 
         public void ChangeProductCount(ProductName productName, int newCount)
         {
             Product product = FindProduct(productName);
-            if (product == null) throw new ShopException("Product not fount");
+            if (product == null) throw new ShopsException("Product not fount");
             product.ChangeCount(newCount);
         }
     }
