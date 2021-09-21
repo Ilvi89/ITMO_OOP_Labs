@@ -4,7 +4,7 @@ namespace Shops.Entity
 {
     public class Customer
     {
-        public Customer(string name, int balance)
+        public Customer(int balance)
         {
             Balance = balance;
         }
