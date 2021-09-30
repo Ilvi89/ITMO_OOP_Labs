@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
@@ -7,19 +8,20 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
 
-  <ItemGroup>
-    <EditorConfigFiles Remove="..\.editorconfig" />
-  </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\.editorconfig" />
-  </ItemGroup>
+    <ItemGroup>
+        <EditorConfigFiles Remove="..\.editorconfig"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+    <ItemGroup>
+        <None Include="..\.editorconfig"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
 
 </Project>
