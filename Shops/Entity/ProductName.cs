@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Shops.Entity
+﻿namespace Shops.Entity
 {
     public class ProductName
     {

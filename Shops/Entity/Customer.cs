@@ -9,13 +9,13 @@ namespace Shops.Entity
             Balance = balance;
         }
 
-        public int Balance { get; private set; }
+        public int Balance { get; }
 
-        public void SpendMoney(int count)
+        public Customer SpendMoney(int count)
         {
             if (Balance - count < 0)
                 throw new ArgumentOutOfRangeException(nameof(count), count, "customer balance cannot be negative");
-            Balance -= count;
+            return new Customer(Balance - count);
         }
     }
 }

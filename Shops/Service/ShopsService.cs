@@ -4,13 +4,13 @@ using Shops.Exception;
 
 namespace Shops.Service
 {
-    public class ShopManager
+    public class ShopsService
     {
         private readonly List<ProductName> _productNames;
         private readonly List<Shop> _shops;
         private int _nextId;
 
-        public ShopManager()
+        public ShopsService()
         {
             _nextId = 0;
             _productNames = new List<ProductName>();
@@ -24,6 +24,11 @@ namespace Shops.Service
             return shop;
         }
 
+        public Shop GetShop(string id)
+        {
+            return _shops.Find(s => s.Id == id);
+        }
+
         public ProductName RegisterProductName(string name)
         {
             var productNameToCreate = new ProductName(name);
@@ -31,6 +36,16 @@ namespace Shops.Service
                 throw new ProductNameExistsException(name);
             _productNames.Add(productNameToCreate);
             return productNameToCreate;
+        }
+
+        public Shop AddProductToShop(Shop shop, ProductName productName, int count, int price)
+        {
+            if (shop.FindProduct(productName) is not null)
+                throw new ProductAlreadyExistException(productName.Name);
+            Shop changedShop = shop.AddProduct(productName, count, price);
+            _shops.Remove(shop);
+            _shops.Add(changedShop);
+            return changedShop;
         }
 
         public Shop FindShopWithLowestPrice(ProductName productName)
@@ -50,13 +65,15 @@ namespace Shops.Service
             return lowShop ?? throw new ShopNotFoundException();
         }
 
-        public void Buy(Customer customer, Shop shop, ProductName productName, int quantityToBuy)
+        public Customer Buy(Customer customer, Shop shop, ProductName productName, int quantityToBuy)
         {
             Product product = shop.FindProduct(productName) ?? throw new ProductNotFoundException();
             if (customer.Balance < quantityToBuy * product.Price)
                 throw new BalanceInsufficientException();
-            shop.ChangeProductCount(product.Name, product.Count - quantityToBuy);
-            customer.SpendMoney(quantityToBuy * product.Price);
+            Shop changedShop = shop.ChangeProductCount(product.Name, product.Count - quantityToBuy);
+            _shops.Remove(shop);
+            _shops.Add(changedShop);
+            return customer.SpendMoney(quantityToBuy * product.Price);
         }
 
         private string GenerateId()

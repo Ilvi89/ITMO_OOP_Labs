@@ -12,14 +12,15 @@ namespace Shops.Tests.Entity
         [SetUp]
         public void Setup()
         {
-            _shop = new Shop("123", "Lenta", "Tama, 5");
+            
         }
 
         [Test]
         public void AddProductToShop_ShopHasProduct()
         {
+            _shop = new Shop("123", "Lenta", "Tama, 5");
             var apple = new ProductName("apple");
-            _shop.AddProduct(apple, 10, 10);
+            _shop = _shop.AddProduct(apple, 10, 10);
             Product product = _shop.FindProduct(apple);
             Assert.AreEqual(product.Name, apple);
             Assert.AreEqual(product.Count, 10);
@@ -30,8 +31,9 @@ namespace Shops.Tests.Entity
         {
             Assert.Catch<ProductAlreadyExistException>(() =>
             {
+                _shop = new Shop("123", "Lenta", "Tama, 5");
                 var apple = new ProductName("apple");
-                _shop.AddProduct(apple, 0, 10);
+                _shop = _shop.AddProduct(apple, 0, 10);
                 _shop.AddProduct(apple, 0, 10);
             });
         }
@@ -41,12 +43,14 @@ namespace Shops.Tests.Entity
         {
             Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
+                _shop = new Shop("123", "Lenta", "Tama, 5");
                 var apple = new ProductName("apple");
-                _shop.AddProduct(apple, -1, 10);
+                _shop = _shop.AddProduct(apple, -1, 10);
             });
 
             Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
+                _shop = new Shop("123", "Lenta", "Tama, 5");
                 var apple = new ProductName("apple");
                 _shop.AddProduct(apple, -0, -10);
             });
@@ -56,16 +60,18 @@ namespace Shops.Tests.Entity
         {
             Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
+                _shop = new Shop("123", "Lenta", "Tama, 5");
                 var apple = new ProductName("apple");
-                _shop.AddProduct(apple, 0, 10);
-                _shop.ChangeProductCount(apple, 100);
+                _shop = _shop.AddProduct(apple, 0, 10);
+                _shop = _shop.ChangeProductCount(apple, 100);
             });
 
             Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
+                _shop = new Shop("123", "Lenta", "Tama, 5");
                 var apple = new ProductName("apple");
-                _shop.AddProduct(apple, 0, 10);
-                _shop.ChangeProductPrice(apple, 100);
+                _shop = _shop.AddProduct(apple, 0, 10);
+                _shop = _shop.ChangeProductPrice(apple, 100);
             });
         }
     }
