@@ -1,25 +1,27 @@
-﻿namespace Shops.Entity
+﻿using System;
+
+namespace Shops.Entity
 {
     public class ProductName
     {
-        public ProductName(string id, string name)
+        public ProductName(string name)
         {
-            Id = id;
-            Name = name;
+            Name = name.ToUpper();
         }
 
-        public string Id { get; }
         public string Name { get; }
 
         public override bool Equals(object obj)
         {
-            if (obj is not ProductName productName) return false;
-            return productName.Id == Id && productName.Name.ToLower() == Name.ToLower();
+            if (obj is not ProductName)
+                return false;
+            var productName = (ProductName)obj;
+            return productName.Name == Name;
         }
 
         public override int GetHashCode()
         {
-            return Id.GetHashCode();
+            return Name.GetHashCode();
         }
     }
 }

@@ -15,15 +15,32 @@ namespace Shops.Tests.Service
             _shopManager = new ShopManager();
         }
 
-        [TestCase("apple", "Apple")]
-        [TestCase("COCACOLA", "CocaCola")]
-        public void RegisterExistingProductName_ThrowProductNameExistsException(string name1, string name2)
+        [TestCase("apple", "Apple", "aPPle")]
+        [TestCase("COCACOLA", "CocaCola", "COCACOLa")]
+        public void RegisterExistingProductName_ThrowProductNameExistsException(string name1, string name2,
+            string name3)
         {
             Assert.Catch<ProductNameExistsException>(() =>
             {
                 _shopManager.RegisterProductName(name1);
-                _shopManager.RegisterProductName(name1);
+                _shopManager.RegisterProductName(name2);
+                _shopManager.RegisterProductName(name3);
             });
+        }
+
+        [Test]
+        public void RegisterProductName()
+        {
+            _shopManager.RegisterProductName("name1");
+            _shopManager.RegisterProductName("name2");
+            _shopManager.RegisterProductName("name3");
+        }
+
+        [Test]
+        public void ProductNameEquality()
+        {
+            Assert.IsFalse(new ProductName("dadaya").Equals(new ProductName("apple")));
+            Assert.IsTrue(new ProductName("dadaya").Equals(new ProductName("dadaya")));
         }
 
         [Test]

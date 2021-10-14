@@ -26,9 +26,9 @@ namespace Shops.Service
 
         public ProductName RegisterProductName(string name)
         {
-            if (_productNames.Exists(pn => pn.Name == name))
+            var productNameToCreate = new ProductName(name);
+            if (_productNames.Exists(pn => pn.Equals(productNameToCreate)))
                 throw new ProductNameExistsException(name);
-            var productNameToCreate = new ProductName(GenerateId(), name);
             _productNames.Add(productNameToCreate);
             return productNameToCreate;
         }
