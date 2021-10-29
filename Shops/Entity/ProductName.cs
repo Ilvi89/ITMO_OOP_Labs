@@ -1,10 +1,11 @@
 ﻿namespace Shops.Entity
 {
-    public class ProductName
+    public class ProductName : Entity
     {
         public ProductName(string name)
         {
             Name = name.ToUpper();
+            Id = Name;
         }
 
         public string Name { get; }

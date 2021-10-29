@@ -2,16 +2,19 @@
 
 namespace Shops.Entity
 {
-    public class Product
+    public class Product : Entity
     {
-        public Product(ProductName productName, int price, int count)
+        public Product(string id, ProductName productName, string shopId, int price, int count)
         {
+            Id = id;
             Name = productName;
             Price = price;
             Count = count;
+            ShopId = shopId;
         }
 
         public ProductName Name { get; }
+        public string ShopId { get; }
         public int Price { get; }
         public int Count { get; }
 
@@ -20,7 +23,7 @@ namespace Shops.Entity
             if (newPrice < 0)
                 throw new ArgumentOutOfRangeException(nameof(newPrice), newPrice, "New price cannot be negative");
 
-            return new Product(Name, newPrice, Count);
+            return new Product(Id, Name, ShopId, newPrice, Count);
         }
 
         public Product ChangeCount(int newCount)
@@ -28,7 +31,7 @@ namespace Shops.Entity
             if (newCount < 0)
                 throw new ArgumentOutOfRangeException(nameof(newCount), newCount, "New count cannot be negative");
 
-            return new Product(Name, Price, newCount);
+            return new Product(Id, Name, ShopId, Price, newCount);
         }
     }
 }

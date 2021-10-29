@@ -2,11 +2,12 @@
 
 namespace Shops.Entity
 {
-    public class Customer
+    public class Customer : Entity
     {
-        public Customer(int balance)
+        public Customer(string id, int balance)
         {
             Balance = balance;
+            Id = id;
         }
 
         public int Balance { get; }
@@ -15,7 +16,7 @@ namespace Shops.Entity
         {
             if (Balance - count < 0)
                 throw new ArgumentOutOfRangeException(nameof(count), count, "customer balance cannot be negative");
-            return new Customer(Balance - count);
+            return new Customer(Id, Balance - count);
         }
     }
 }
