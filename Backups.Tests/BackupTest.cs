@@ -30,16 +30,5 @@ namespace Backups.Tests
             Assert.AreEqual(localStorageRepo.CountOfStorages, 4);
             Assert.AreEqual(localStorageRepo.GetByRestorePointId(tRp.Id).Count, 1);
         }
-        
-        [Test]
-        public void BackupSingleCreationTest()
-        {
-            var fileStorageRepo = new FileStorageRepository();
-            var backupJob = new BackupJob("SuperBackup", fileStorageRepo, null);
-            
-            backupJob.AddFile("./first.file");
-            backupJob.AddFile("./second.file");
-            RestorePoint fRp = backupJob.CreateSingleRestorePoint();
-        }
     }
 }
