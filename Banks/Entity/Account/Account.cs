@@ -8,7 +8,6 @@ namespace Banks.Entity.Account
         private readonly float _interestOnBalance;
         private int _balance;
         private Caretaker _caretaker;
-        private int _currentInterestOnBalance;
         private string _id;
         private DateTime _lastInterestCharge;
         private string _ownerId;
@@ -22,11 +21,9 @@ namespace Banks.Entity.Account
             _caretaker = new Caretaker(this);
         }
 
-        public virtual int Balance
-        {
-            get => _balance;
-            set => _balance = value;
-        }
+        public virtual int Balance => _balance;
+
+        public int CurrentInterestOnBalance { get; private set; }
 
         public void UpdateBalance(int sum)
         {
@@ -36,7 +33,7 @@ namespace Banks.Entity.Account
         // https://www.raiffeisen.ru/wiki/kak-rasschitat-procenty-po-vkladu/
         public void CalculateDailyInterest(int days, DateTime updateDate)
         {
-            _currentInterestOnBalance += (int)Math.Floor(_interestOnBalance / 365 * _balance * days / 100);
+            CurrentInterestOnBalance += (int)Math.Floor(_interestOnBalance / 365 * _balance * days / 100);
             _lastInterestCharge = updateDate;
         }
 
@@ -47,7 +44,7 @@ namespace Banks.Entity.Account
 
         public void Restore(BalanceMemento memento)
         {
-            Balance = memento.GetState();
+            _balance = memento.GetState();
         }
     }
 }
