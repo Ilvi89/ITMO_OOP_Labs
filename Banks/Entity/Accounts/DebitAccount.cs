@@ -1,4 +1,4 @@
-﻿namespace Banks.Entity.Account
+﻿namespace Banks.Entity.Accounts
 {
     public class DebitAccount : Account
     {

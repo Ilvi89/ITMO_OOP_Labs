@@ -1,4 +1,4 @@
-﻿namespace Banks.Entity.Client
+﻿namespace Banks.Entity.Clients
 {
     public class Client
     {

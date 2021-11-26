@@ -1,4 +1,4 @@
-﻿namespace Banks.Entity.Client
+﻿namespace Banks.Entity.Clients
 {
     public class ClientBuilder
     {
@@ -24,9 +24,9 @@
             return this;
         }
 
-        public Entity.Client.Client GetClient()
+        public Clients.Client GetClient()
         {
-            return new Entity.Client.Client(_id, _name, _surname);
+            return new Clients.Client(_id, _name, _surname);
         }
     }
 }
