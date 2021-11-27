@@ -27,22 +27,26 @@ namespace Banks.Entity.Banks
         public List<Account> Accounts { get; }
         public BankTimeProvider Time { get; }
 
-        public void AddClient(Client client)
+        public Client CreateClient(string name, string surname, string passport = null)
         {
-            // ToDo: change exception
-            if (Clients.Exists(x => x.Id == client.Id))
-                throw new Exception("Bank: client exist");
-            Clients.Add(client);
+            var client = new Client(Guid.NewGuid().ToString(), name, surname, passport);
+            AddClient(client);
+            return client;
         }
 
-        public void AddAccountToClient(Client client, Account account)
+        public DebitAccount CreateDebitAccount(Client client, int balance, float interestOnBalance)
         {
-            if (!Clients.Exists(x => x.Id == client.Id))
-                throw new Exception("Bank: client not exist");
-            if (client.Passport != null)
-                Accounts.Add(new Verified(account));
-            else
-                Accounts.Add(account);
+            var account = new DebitAccount(
+                Guid.NewGuid().ToString(), balance, client.Id, interestOnBalance, client.Passport != null);
+            AddAccount(account);
+            return account;
+        }
+
+        public CreditAccount CreateCreditAccount(Client client, int balance, int limit, int fee)
+        {
+            var account = new CreditAccount(
+                Guid.NewGuid().ToString(), balance, client.Id, limit, fee, client.Passport != null);
+            return account;
         }
 
         public void Put(string accountId, int sum)
@@ -89,6 +93,21 @@ namespace Banks.Entity.Banks
             Accounts.ForEach(account => account.UpdateBalance(account.CurrentInterestOnBalance));
             Accounts.ForEach(account => account.CurrentInterestOnBalance = 0);
             Time.LastAccountsUpdate = Time.CurrentDate;
+        }
+
+        private void AddClient(Client client)
+        {
+            // ToDo: change exception
+            if (Clients.Exists(x => x.Id == client.Id))
+                throw new Exception("Bank: client exist");
+            Clients.Add(client);
+        }
+
+        private void AddAccount(Account account)
+        {
+            if (!Clients.Exists(x => x.Id == account.OwnerId))
+                throw new Exception("Bank: client not exist");
+            Accounts.Add(account);
         }
     }
 }

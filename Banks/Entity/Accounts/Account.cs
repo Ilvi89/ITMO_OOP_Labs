@@ -1,17 +1,19 @@
 ﻿using System;
+using Banks.Entity.Clients;
 using Banks.Entity.Memento;
 
 namespace Banks.Entity.Accounts
 {
     public abstract class Account
     {
-        protected Account(string id, int balance, string ownerId, float interestOnBalance = 0)
+        protected Account(string id, int balance, string ownerId, float interestOnBalance = 0, bool isVerified = false)
         {
             Balance = balance;
             Id = id;
             OwnerId = ownerId;
             InterestOnBalance = interestOnBalance;
             Caretaker = new Caretaker(this);
+            IsVerified = isVerified;
         }
 
         public float InterestOnBalance { get; }
@@ -22,7 +24,7 @@ namespace Banks.Entity.Accounts
         public Caretaker Caretaker { get; }
 
         public string OwnerId { get; }
-        public virtual bool IsVerified => true;
+        public bool IsVerified { get; }
 
         public int CurrentInterestOnBalance { get; set; }
         public virtual int Balance { get; protected set; }

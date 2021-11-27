@@ -5,8 +5,8 @@ namespace Banks.Entity.Accounts
 {
     public class CreditAccount : Account
     {
-        public CreditAccount(string id, int balance, string ownerId, int limit, int fee)
-            : base(id, balance, ownerId)
+        public CreditAccount(string id, int balance, string ownerId, int limit, int fee, bool isVerified)
+            : base(id, balance, ownerId, 0, isVerified)
         {
             Limit = limit;
             Fee = fee;

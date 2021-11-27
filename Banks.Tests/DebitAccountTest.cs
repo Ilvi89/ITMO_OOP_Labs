@@ -13,7 +13,7 @@ namespace Banks.Tests.Entity.Account
         public void Setup()
         {
             _client = Client.Builder("1", "Ilya", "Pizik").GetClient();
-            _account = new DebitAccount("123", 100000 , _client.Id, 3.65f);
+            _account = new DebitAccount("123", 100000 , _client.Id, 3.65f, true);
         }
 
         [Test]
