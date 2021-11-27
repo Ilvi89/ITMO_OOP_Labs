@@ -39,7 +39,10 @@ namespace Banks.Entity.Banks
         {
             if (!Clients.Exists(x => x.Id == client.Id))
                 throw new Exception("Bank: client not exist");
-            Accounts.Add(account);
+            if (client.Passport != null)
+                Accounts.Add(new Verified(account));
+            else
+                Accounts.Add(account);
         }
 
         public void Put(string accountId, int sum)

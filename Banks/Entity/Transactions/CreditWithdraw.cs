@@ -16,6 +16,8 @@ namespace Banks.Entity.Transactions
             {
                 if (creditAccount.Balance - sum < -creditAccount.Limit)
                     throw new Exception("Transaction: credit limit exceeded");
+                if (!creditAccount.IsVerified && sum > 1000)
+                    throw new Exception("Transaction: withdraw from unverified account must be less 1000");
 
                 To.Caretaker.Backup();
                 To.UpdateBalance(-sum);

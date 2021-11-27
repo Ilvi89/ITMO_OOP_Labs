@@ -5,16 +5,16 @@ namespace Banks.Entity.Accounts
 {
     public abstract class Account
     {
-        private readonly float _interestOnBalance;
-
         protected Account(string id, int balance, string ownerId, float interestOnBalance = 0)
         {
             Balance = balance;
             Id = id;
             OwnerId = ownerId;
-            _interestOnBalance = interestOnBalance;
+            InterestOnBalance = interestOnBalance;
             Caretaker = new Caretaker(this);
         }
+
+        public float InterestOnBalance { get; }
 
         public string Id { get; }
 
@@ -22,6 +22,7 @@ namespace Banks.Entity.Accounts
         public Caretaker Caretaker { get; }
 
         public string OwnerId { get; }
+        public virtual bool IsVerified => true;
 
         public int CurrentInterestOnBalance { get; set; }
         public virtual int Balance { get; protected set; }
@@ -34,7 +35,7 @@ namespace Banks.Entity.Accounts
         // https://www.raiffeisen.ru/wiki/kak-rasschitat-procenty-po-vkladu/
         public void CalculateDailyInterest(int days, DateTime updateDate)
         {
-            CurrentInterestOnBalance += (int)Math.Floor(_interestOnBalance / 365 * Balance * days / 100);
+            CurrentInterestOnBalance += (int)Math.Floor(InterestOnBalance / 365 * Balance * days / 100);
             LastInterestCharge = updateDate;
         }
 

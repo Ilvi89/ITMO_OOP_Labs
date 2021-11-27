@@ -4,6 +4,7 @@
     {
         private string _id;
         private string _name;
+        private string _passport;
         private string _surname;
 
         public ClientBuilder SetId(string id)
@@ -24,9 +25,15 @@
             return this;
         }
 
-        public Clients.Client GetClient()
+        public ClientBuilder SetPassport(string passport)
         {
-            return new Clients.Client(_id, _name, _surname);
+            _passport = passport;
+            return this;
+        }
+
+        public Client GetClient()
+        {
+            return new Client(_id, _name, _surname, _passport);
         }
     }
 }

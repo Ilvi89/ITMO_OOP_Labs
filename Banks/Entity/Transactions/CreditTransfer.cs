@@ -16,6 +16,8 @@ namespace Banks.Entity.Transactions
             {
                 if (creditAccount.Balance - sum < -creditAccount.Limit)
                     throw new Exception("Transaction: credit limit exceeded");
+                if (!creditAccount.IsVerified)
+                    throw new Exception("Transaction: transfer from unverified account is prohibited");
 
                 From.Caretaker.Backup();
                 To.Caretaker.Backup();

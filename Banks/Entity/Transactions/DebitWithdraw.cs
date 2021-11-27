@@ -16,6 +16,8 @@ namespace Banks.Entity.Transactions
             {
                 if (sum > debitAccount.Balance)
                     throw new Exception("Transaction: balance in negative");
+                if (!debitAccount.IsVerified && sum > 1000)
+                    throw new Exception("Transaction: withdraw from unverified account must be less 1000");
 
                 To.Caretaker.Backup();
                 To.UpdateBalance(-sum);
