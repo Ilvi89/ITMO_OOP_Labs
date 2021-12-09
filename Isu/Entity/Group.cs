@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using Isu.Tools;
 
-namespace Isu.Services
+namespace Isu.Entity
 {
     public class Group
     {
-        public Group(CourseNumber courseNumber, string groupNumber, int maxStudentNumber)
+        public Group(GroupName name, int maxStudentNumber)
         {
-            CourseNumber = courseNumber;
-            GroupNumber = groupNumber;
+            CourseNumber = name.CourseNumber;
+            GroupNumber = name.GroupNumber;
             MaxStudentNumber = maxStudentNumber;
             Students = new List<Student>();
         }

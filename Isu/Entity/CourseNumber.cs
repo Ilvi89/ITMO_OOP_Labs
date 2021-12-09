@@ -1,6 +1,6 @@
 ﻿using Isu.Tools;
 
-namespace Isu.Services
+namespace Isu.Entity
 {
     public class CourseNumber
     {

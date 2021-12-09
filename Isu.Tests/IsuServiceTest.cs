@@ -1,3 +1,4 @@
+using Isu.Entity;
 using Isu.Services;
 using Isu.Tools;
 using NUnit.Framework;
@@ -48,7 +49,7 @@ namespace Isu.Tests
         }
 
         [Test]
-        public void TransferStudentToAnotherGroup_GroupChanged()
+        public void TransferStudentToAnotherGroup_GroupChanged_ThrowException()
         {
             Assert.Catch<IsuException>(() =>
             {
@@ -61,7 +62,7 @@ namespace Isu.Tests
                 Assert.Contains(s1, _isuService.FindGroup(g2.FullName).Students);
                 Assert.Contains(s1, g2.Students);
                 
-                _isuService.ChangeStudentGroup(s1, new Group(new CourseNumber(1), "22", 5));
+                _isuService.ChangeStudentGroup(s1, new Group(new GroupName("M3199"), 10));
             });
         }
     }

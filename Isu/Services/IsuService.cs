@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Isu.Entity;
 using Isu.Tools;
+using Group = Isu.Entity.Group;
 
 namespace Isu.Services
 {
@@ -22,10 +24,7 @@ namespace Isu.Services
 
         public Group AddGroup(string name)
         {
-            if (Regex.IsMatch(name, "^M3[0-9]{3}$") == false) throw new IsuException("invalid group name");
-            var courseNumber = new CourseNumber(name.Substring(2, 1));
-            string groupNumber = name.Substring(3, 2);
-            var group = new Group(courseNumber, groupNumber, DefaultMaxStudentNumber);
+            var group = new Group(new GroupName(name), DefaultMaxStudentNumber);
             _groups.Add(group);
             return group;
         }

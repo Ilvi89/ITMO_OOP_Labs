@@ -1,4 +1,4 @@
-﻿namespace Isu.Services
+﻿namespace Isu.Entity
 {
     public class Student
     {
