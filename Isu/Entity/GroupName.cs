@@ -13,7 +13,6 @@ namespace Isu.Entity
             // Todo: refactor this (reg exp)
             string groupNumber = name[3] + name[4].ToString();
             if (name.Length == 5 &&
-                name[0] == 'M' &&
                 name[1] == '3' &&
                 Enumerable.Range(1, 6).Contains(int.Parse(name[2].ToString())) &&
                 Enumerable.Range(0, 99).Contains(int.Parse(groupNumber)))
