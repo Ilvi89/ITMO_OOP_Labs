@@ -4,7 +4,7 @@
     {
         Info,
         Warning,
-        Error
+        Error,
     }
 
     public interface ILogger

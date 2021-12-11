@@ -30,7 +30,7 @@ namespace BackupsExtra.Entity
             File.AppendAllLines("BackupExtra.log", new[] {$"[{DateTime.Now}] [{logType}]: {message}\n"});
         }
 
-        public static Logger Get()
+        public static Logger GetInstance()
         {
             return _instance ??= new Logger();
         }
