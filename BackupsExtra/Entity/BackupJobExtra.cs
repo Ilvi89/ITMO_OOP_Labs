@@ -1,21 +1,41 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using BackupsExtra.Algorithms;
 
 namespace BackupsExtra.Entity
 {
     public class BackupJobExtra
     {
+        private readonly Algorithm _algorithm;
         private readonly ILogger _logger;
 
         public BackupJobExtra(
-            StorageType storageType, string commonFolder, List<string> fileList, Algorithm algorithm, ILogger logger)
+            string name,
+            List<string> watchedFilePaths,
+            Algorithm algorithm,
+            ILogger logger,
+            int maxRestorePointCount)
         {
+            Name = name;
+            WatchedFilePaths = watchedFilePaths;
+            RestorePoints = new List<RestorePoint>();
             _logger = logger;
-            _logger.Info($"new backup job created");
+            _algorithm = algorithm;
         }
 
-        public List<Backup> Backups { get; }
-        public Algorithm Algorithm { get; }
-        public StorageType StorageType { get; }
+        public string Name { get; }
+        private List<string> WatchedFilePaths { get; }
+        private List<RestorePoint> RestorePoints { get; }
+
+        public RestorePoint CreateRestorePoint(RestorePointType restorePointType)
+        {
+            var restorePoint = new RestorePoint(Guid.NewGuid().ToString(), DateTime.Now, restorePointType);
+
+            return restorePoint;
+        }
+
+        public void Recover(RestorePoint restorePoint)
+        {
+        }
     }
 }

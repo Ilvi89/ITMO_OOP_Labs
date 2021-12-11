@@ -2,14 +2,17 @@
 
 namespace BackupsExtra.Entity
 {
-    public abstract class RestorePoint
+    public class RestorePoint
     {
-        public DateTime CreationTime { get; }
-        public abstract long Size { get; }
-        public long Length { get; }
-        public string FullPath { get; }
-        public string Name { get; }
-        public string DirectoryName { get; }
-        public string OriginalFilePath { get; }
+        public RestorePoint(string id, DateTime createdAt, RestorePointType restorePointType)
+        {
+            Id = id;
+            CreatedAt = createdAt;
+            PointType = restorePointType;
+        }
+
+        public string Id { get; }
+        public DateTime CreatedAt { get; }
+        public RestorePointType PointType { get; }
     }
 }

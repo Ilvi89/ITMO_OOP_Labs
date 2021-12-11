@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Backups.Entity;
-
-namespace BackupsExtra.Entity
+﻿namespace BackupsExtra.Entity.Backup
 {
     public class Backup
     {
-        public Guid Id { get; }
-        public DateTime CreationTime { get; }
-        public List<RestorePoint> RestorePoints { get; }
-        private StorageType StorageType { get; }
+        public Backup(string id, string restorePointId, string originalFilePath)
+        {
+            Id = id;
+            RestorePointId = restorePointId;
+            OriginalFilePath = originalFilePath;
+        }
+
+        public string Id { get; }
+        public string RestorePointId { get; }
+        public string OriginalFilePath { get; }
     }
 }
