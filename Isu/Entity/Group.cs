@@ -7,6 +7,7 @@ namespace Isu.Entity
     {
         public Group(GroupName name, int maxStudentNumber)
         {
+            Name = name;
             CourseNumber = name.CourseNumber;
             GroupNumber = name.GroupNumber;
             MaxStudentNumber = maxStudentNumber;
@@ -18,7 +19,7 @@ namespace Isu.Entity
         public List<Student> Students { get; }
         public int MaxStudentNumber { get; }
 
-        public string FullName => $"M3{CourseNumber}{GroupNumber}";
+        public GroupName Name { get; }
 
         public Student AddStudent(Student student)
         {
