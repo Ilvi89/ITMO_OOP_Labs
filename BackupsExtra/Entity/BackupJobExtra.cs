@@ -1,46 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
-using BackupsExtra.Algo;
+using System.IO;
+using BackupsExtra.Algo.Cut;
+using BackupsExtra.Algo.GetExtreme;
+using BackupsExtra.Algo.Save;
 using BackupsExtra.Repo;
 
 namespace BackupsExtra.Entity
 {
+    [Serializable]
     public class BackupJobExtra
     {
         private readonly ILogger _logger;
-        private readonly IRestorePointRepo _restorePointRepo;
 
         public BackupJobExtra(
             string name,
             List<string> watchedFilePaths,
             ILogger logger,
-            IRestorePointRepo restorePointRepo)
+            IRestorePointRepo restorePointRepo,
+            CutType cutType,
+            GetExtremeAlgo cleanAlgo)
         {
             Name = name;
             WatchedFilePaths = watchedFilePaths;
-            RestorePoints = new List<RestorePoint>();
+            RestorePointRepo = restorePointRepo;
+            CutType = cutType;
+            ExtremeAlgo = cleanAlgo;
             _logger = logger;
-            _restorePointRepo = restorePointRepo;
         }
 
-        public string Name { get; }
-        private List<string> WatchedFilePaths { get; }
-        private List<RestorePoint> RestorePoints { get; }
+        public CutType CutType { get; }
+        public GetExtremeAlgo ExtremeAlgo { get; }
+        public IRestorePointRepo RestorePointRepo { get; }
 
-        public RestorePoint CreateRestorePoint(SaveAlgoType saveAlgoType, CutType cutType)
+        public string Name { get; }
+        public List<string> WatchedFilePaths { get; }
+
+        public RestorePoint CreateRestorePoint(SaveAlgoType saveAlgoType)
         {
-            var restorePoint = new RestorePoint(Guid.NewGuid().ToString(), DateTime.Now, saveAlgoType);
-            _restorePointRepo.DeleteUpTo(GetExtremeRestorePoint());
-            new SaveAgoFabric(saveAlgoType, _restorePointRepo).ExecuteSaveAlgo(restorePoint);
+            var backups = new List<Backup>();
+
+            foreach (string watchedFilePath in WatchedFilePaths)
+            {
+                backups.Add(new Backup(
+                    Guid.NewGuid().ToString(),
+                    new FileInfo(watchedFilePath).FullName));
+            }
+
+            var restorePoint = new RestorePoint(Guid.NewGuid().ToString(), DateTime.Now, saveAlgoType, backups);
+
+            new CutAgoFabric(CutType, RestorePointRepo)
+                .Execute(ExtremeAlgo.GetExtreme(restorePoint));
+            new SaveAgoFabric(saveAlgoType, RestorePointRepo, Name).Execute(restorePoint);
             return restorePoint;
         }
 
         public void Recover(RestorePoint restorePoint)
-        {
-            throw new NotImplementedException();
-        }
-
-        private RestorePoint GetExtremeRestorePoint()
         {
             throw new NotImplementedException();
         }

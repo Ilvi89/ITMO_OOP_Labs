@@ -1,16 +1,17 @@
-﻿namespace BackupsExtra.Entity.Backup
+﻿using System;
+
+namespace BackupsExtra.Entity
 {
+    [Serializable]
     public class Backup
     {
-        public Backup(string id, string restorePointId, string originalFilePath)
+        public Backup(string id, string originalFilePath)
         {
             Id = id;
-            RestorePointId = restorePointId;
             OriginalFilePath = originalFilePath;
         }
 
         public string Id { get; }
-        public string RestorePointId { get; }
         public string OriginalFilePath { get; }
     }
 }

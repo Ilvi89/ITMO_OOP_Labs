@@ -9,6 +9,10 @@ namespace BackupsExtra.Entity
     {
         private static Logger _instance;
         private Logger() { }
+        public static Logger GetInstance()
+        {
+            return _instance ??= new Logger();
+        }
 
         public void Info(string message)
         {
@@ -27,12 +31,7 @@ namespace BackupsExtra.Entity
 
         public void Log(LogType logType, string message)
         {
-            File.AppendAllLines("BackupExtra.log", new[] {$"[{DateTime.Now}] [{logType}]: {message}\n"});
-        }
-
-        public static Logger GetInstance()
-        {
-            return _instance ??= new Logger();
+            File.AppendAllLines("BackupExtra.log", new[] { $"[{DateTime.Now}] [{logType}]: {message}\n" });
         }
     }
 }

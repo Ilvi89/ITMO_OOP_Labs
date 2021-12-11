@@ -2,12 +2,12 @@
 using BackupsExtra.Entity;
 using BackupsExtra.Repo;
 
-namespace BackupsExtra.Algo
+namespace BackupsExtra.Algo.Save
 {
-    public class SplitSaveAlgo : SaveAlgo
+    public class Singl : SaveAlgo
     {
-        public SplitSaveAlgo(IRestorePointRepo restorePointRepo)
-            : base(restorePointRepo)
+        public Singl(IRestorePointRepo restorePointRepo, string basePath)
+            : base(restorePointRepo, basePath)
         {
         }
 

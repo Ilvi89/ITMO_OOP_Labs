@@ -1,4 +1,4 @@
-﻿namespace BackupsExtra.Entity
+﻿namespace BackupsExtra.Algo.Cut
 {
     public enum CutType
     {

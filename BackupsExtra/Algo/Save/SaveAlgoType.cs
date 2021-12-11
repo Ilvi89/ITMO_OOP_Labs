@@ -1,4 +1,4 @@
-﻿namespace BackupsExtra.Algo
+﻿namespace BackupsExtra.Algo.Save
 {
     public enum SaveAlgoType
     {
