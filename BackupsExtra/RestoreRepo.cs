@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 using BackupsExtra.Entity;
 using BackupsExtra.Repo;
@@ -18,8 +19,8 @@ namespace BackupsExtra
 
         public RestorePoint Save(RestorePoint restorePoint)
         {
-            RestorePoint old = Points?.FindLast(point => point.Id == restorePoint.Id);
-            if (old != null) Points[Points.FindIndex(point => point.Id == restorePoint.Id)] = restorePoint;
+            if (Points.Contains(restorePoint))
+                Points[Points.FindIndex(point => point.Id == restorePoint.Id)] = restorePoint;
             Points.Add(restorePoint);
             return restorePoint;
         }
@@ -41,7 +42,9 @@ namespace BackupsExtra
         public RestorePoint GetByOrder(int count)
         {
             Points.Sort((f, s) => f.CreatedAt.CompareTo(s.CreatedAt));
-            return Points[count - 1];
+            if (Points.ElementAt(count) != null)
+                return Points[count];
+            return null;
         }
 
         public RestorePoint GetPrev(RestorePoint restorePoint)

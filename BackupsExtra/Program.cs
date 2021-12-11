@@ -19,14 +19,10 @@ namespace BackupsExtra
                 Logger.GetInstance(),
                 repo,
                 CutType.Delete,
-                new CountGetExtreme(repo, 1));
+                new CountGetExtreme(repo, 2));
 
             var app = new App();
             app.Run(job, "data");
-            job.CreateRestorePoint(SaveAlgoType.Split);
-            job.CreateRestorePoint(SaveAlgoType.Split);
-            job.CreateRestorePoint(SaveAlgoType.Split);
-            job.CreateRestorePoint(SaveAlgoType.Split);
             job.CreateRestorePoint(SaveAlgoType.Split);
             job.CreateRestorePoint(SaveAlgoType.Split);
             job.CreateRestorePoint(SaveAlgoType.Split);

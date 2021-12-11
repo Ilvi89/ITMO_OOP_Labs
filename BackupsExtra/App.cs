@@ -1,25 +1,32 @@
 ﻿using System.IO;
-using System.Text.Json;
-using System.Xml;
 using BackupsExtra.Entity;
+using Newtonsoft.Json;
 
 namespace BackupsExtra
 {
     public class App
     {
+        private readonly JsonSerializerSettings _settings;
         private BackupJobExtra _backupJob;
+
+        public App()
+        {
+            this._settings = new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+            };
+        }
+
+        public void Save(string dataFile)
+        {
+            var json = JsonConvert.SerializeObject(_backupJob, _settings);
+            File.WriteAllText(dataFile + ".dat", json);
+        }
 
         public void Run(BackupJobExtra backupJob, string dataFile)
         {
             File.Create(dataFile + ".dat").Close();
             _backupJob = backupJob;
-        }
-
-        public async void Save(string dataFile)
-        {
-            // File.WriteAllText(dataFile + ".dat", JsonSerializer.Serialize(_backupJob));
-            await using var fs = new FileStream(dataFile + ".dat", FileMode.OpenOrCreate);
-            await JsonSerializer.SerializeAsync(fs, _backupJob);
         }
     }
 }
