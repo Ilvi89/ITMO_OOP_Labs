@@ -25,8 +25,15 @@ namespace BackupsExtra
 
         public void Run(BackupJobExtra backupJob, string dataFile)
         {
-            File.Create(dataFile + ".dat").Close();
-            _backupJob = backupJob;
+            if (File.Exists(dataFile + ".dat"))
+            {
+                _backupJob = JsonConvert.DeserializeObject<BackupJobExtra>(dataFile + ".dat", _settings);
+            }
+            else
+            {
+                File.Create(dataFile + ".dat").Close();
+                _backupJob = backupJob;
+            }
         }
     }
 }
